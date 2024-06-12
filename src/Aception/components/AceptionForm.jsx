@@ -6,6 +6,7 @@ const filterDataByWordSubGroupWord = (data, value) => {
   try {
     return data.filter((item) => `${item.group}` === `${value}`);
   } catch (error) {
+    console.error("Error filtering data:", error);
     return [];
   }
 };
@@ -17,16 +18,17 @@ export const AceptionForm = ({ formData, setFormData }) => {
   const [subGroupWordsState, setSubGroupWordsState] = useState([]);
 
   const handleChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [name]: value });
     if (name === "word_type") {
-      setSubGroupWordsState([]);
-      setSubGroupWordsState([
-        ...filterDataByWordSubGroupWord(subgroupwords.data, value),
-      ]);
+      const filteredSubGroups = filterDataByWordSubGroupWord(
+        subgroupwords.data,
+        value
+      );
+      setSubGroupWordsState(filteredSubGroups);
     }
   };
+
   return (
     <>
       <div>
@@ -39,16 +41,16 @@ export const AceptionForm = ({ formData, setFormData }) => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300  text-sm rounded-lg  block w-full p-2.5"
+          className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
           placeholder="Ingrese acepción"
           required
         />
       </div>
       <div>
-        <label htmlFor="name" className="block">
+        <label htmlFor="file" className="block">
           Archivo
         </label>
-        <input type="file" />
+        <input type="file" id="file" name="file" />
       </div>
 
       <div>
@@ -60,7 +62,7 @@ export const AceptionForm = ({ formData, setFormData }) => {
           id="mcer"
           name="mcer"
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300  text-sm rounded-lg  block w-full p-2.5"
+          className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
           required
         >
           {mcerData.map((item) => (
@@ -79,10 +81,10 @@ export const AceptionForm = ({ formData, setFormData }) => {
           id="word_type"
           name="word_type"
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300  text-sm rounded-lg  block w-full p-2.5"
-          required={formData.word_type === null || formData.word_type === ""}
+          className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
+          required
         >
-          <option key={0} value={""}>
+          <option key={0} value="">
             {"Seleccione una opción"}
           </option>
           {data.map((item) => (
@@ -92,10 +94,8 @@ export const AceptionForm = ({ formData, setFormData }) => {
           ))}
         </select>
       </div>
-      {subGroupWordsState.length > 0 ? (
+      {subGroupWordsState.length > 0 && (
         <DynamicForm data={subGroupWordsState} />
-      ) : (
-        <></>
       )}
     </>
   );

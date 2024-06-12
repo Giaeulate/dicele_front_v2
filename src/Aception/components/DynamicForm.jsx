@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 const DynamicForm = ({ data }) => {
-  // console.log("data", data);
-  // const [formData, setFormData] = useState([]);
-  const [formData, setFormData] = useState(data);
+  const [formData, setFormData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8000/core/sub_group_word/");
-  //     setFormData(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
+  useEffect(() => {
+    setFormData(data);
+  }, [data]);
 
   const handleChange = (e, option) => {
     const { value } = e.target;
@@ -57,7 +45,6 @@ const DynamicForm = ({ data }) => {
   };
 
   return <div>{formData.map((option) => renderOptions(option))}</div>;
-  // return <div>{renderOptions(formData)}</div>;
 };
 
 export default DynamicForm;
