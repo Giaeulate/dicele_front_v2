@@ -15,7 +15,7 @@ export const TraductionForm = ({ title }) => {
   ];
   return (
     <>
-      <div>
+      {/* <div>
         <label htmlFor="variant_observation" className="block">
           Idioma traducción
         </label>
@@ -36,10 +36,10 @@ export const TraductionForm = ({ title }) => {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
       <div>
         <label htmlFor="variant_observation" className="block">
-          Traducción {title}
+          Traducción {title} - Coreano
         </label>
         <input
           type="text"
@@ -51,6 +51,33 @@ export const TraductionForm = ({ title }) => {
           placeholder="Ingrese traducción"
           required
         />
+        <button
+          type="button"
+          className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
+          // onClick={() => handleAddTranslation()}
+        >
+          Seleccionar Idioma
+        </button>
+        {/* <label htmlFor="variant_observation" className="block">
+          Traducción {title} - Inglés
+        </label>
+        <input
+          type="text"
+          id="variant_observation1"
+          name="variant_observation1"
+          //   value={formData.variant_observation}
+          //   onChange={handleChange}
+          className="bg-gray-50 border border-gray-300  text-sm rounded-lg  block w-full p-2.5"
+          placeholder="Ingrese traducción"
+          required
+        />
+        <button
+          type="button"
+          className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
+          // onClick={() => handleAddTranslation()}
+        >
+          Seleccionar Idioma
+        </button> */}
       </div>
     </>
   );

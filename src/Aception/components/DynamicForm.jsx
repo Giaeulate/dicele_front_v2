@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [popupContent, setPopupContent] = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [selectedTranslation, setSelectedTranslation] = useState("");
 
   const translationOptions = [
     {
@@ -14,8 +19,6 @@ const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
       name: "Coreano",
     },
   ];
-
-  const [selectedTranslation, setSelectedTranslation] = useState("");
 
   const handleChange = (e, option) => {
     const { value, type, checked, files } = e.target;
@@ -32,13 +35,23 @@ const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
   };
 
   const handleAddTranslation = (option) => {
-    setPopupContent(`Seleccionar for ${option.name}`);
+    setPopupContent(`Seleccionar para ${option.name}`);
     setIsPopupVisible(true);
   };
 
   const handleClosePopup = () => {
     setIsPopupVisible(false);
     setPopupContent("");
+  };
+
+  const onEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    const contentState = newEditorState.getCurrentContent();
+    const contentText = contentState.getPlainText(); // Obtén el texto plano del editor
+    setSelectedOptions((prevState) => ({
+      ...prevState,
+      editorContent: contentText, // Actualiza el contenido del editor en selectedOptions
+    }));
   };
 
   const renderOptions = (option, parentKey = "") => {
@@ -65,6 +78,31 @@ const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
               <button
                 type="button"
                 className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
+                onClick={() => handleAddTranslation(option)}
+              >
+                Seleccionar
+              </button>
+            )}
+          </>
+        )}
+        {option.type === "custom_textarea" && (
+          <>
+            <label className="block text-sm font-medium text-gray-700 mr-2">
+              {option.name}
+            </label>
+            <div className="mt-1 block w-full">
+              <Editor
+                editorState={editorState}
+                toolbarClassName="toolbar-class"
+                wrapperClassName="custom-wrapper-class"
+                editorClassName="custom-editor-class"
+                onEditorStateChange={onEditorStateChange}
+              />
+            </div>
+            {option.add_traduction && (
+              <button
+                type="button"
+                className="mt-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
                 onClick={() => handleAddTranslation(option)}
               >
                 Seleccionar
@@ -147,7 +185,7 @@ const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             >
-              <option value="">Select {option.name}</option>
+              <option value="">Seleccionar {option.name}</option>
               {option.options?.map((subOption) => (
                 <option key={subOption.id} value={subOption.id}>
                   {subOption.name}

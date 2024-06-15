@@ -11,6 +11,15 @@ export const PronunciationForm = ({ formData, setFormData }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
+
+  const handleAddTranslation = () => {
+    setIsPopupVisible(true);
+  };
+
   function togglePop() {
     setSeen(!seen);
   }
@@ -108,6 +117,13 @@ export const PronunciationForm = ({ formData, setFormData }) => {
           placeholder="Ingrese variante prosódica"
           required
         />
+        <button
+          type="button"
+          className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
+          onClick={() => handleAddTranslation()}
+        >
+          Seleccionar Remisión
+        </button>
       </div>
       <div>
         <label htmlFor="variant_observation" className="block">

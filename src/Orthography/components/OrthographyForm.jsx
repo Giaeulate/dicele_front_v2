@@ -33,13 +33,6 @@ export const OrthographyForm = ({ formData, setFormData }) => {
           placeholder="Ingrese división silábica"
           required
         />
-        <button
-          type="button"
-          className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
-          onClick={() => handleAddTranslation()}
-        >
-          Seleccionar
-        </button>
       </div>
       <div>
         <label htmlFor="type_pronunciation" className="block">
@@ -55,6 +48,13 @@ export const OrthographyForm = ({ formData, setFormData }) => {
           placeholder="Ingrese división silábica"
           required
         />
+        <button
+          type="button"
+          className="ml-2 px-4 py-2 w-90p bg-blue-500 text-white rounded"
+          onClick={() => handleAddTranslation()}
+        >
+          Seleccionar Remisión
+        </button>
       </div>
       <div>
         <label htmlFor="observation" className="block">
