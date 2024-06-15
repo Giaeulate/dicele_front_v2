@@ -12,10 +12,28 @@ const filterDataByWordSubGroupWord = (data, value) => {
 };
 
 export const AceptionForm = ({ formData, setFormData }) => {
+  const tabData = [
+    { id: "tab1", label: "Tab 1", content: <div>Content for Tab 1</div> },
+    { id: "tab2", label: "Tab 2", content: <div>Content for Tab 2</div> },
+    { id: "tab3", label: "Tab 3", content: <div>Content for Tab 3</div> },
+  ];
+
   const { data } = useSelector((state) => state.wordType);
   const subgroupwords = useSelector((state) => state.subGroupWord);
   const mcerData = ["A1", "A2", "B1", "B2", "C1", "C2"];
-  const [subGroupWordsState, setSubGroupWordsState] = useState([]);
+
+  const [clasificationState, setClasificationState] = useState([]);
+  const [morphologyState, setMorphologyState] = useState([]);
+  const [sintaxisState, setSintaxisState] = useState([]);
+  const [pragmaticaState, setPragmaticaState] = useState([]);
+  const [culturaState, setCulturaState] = useState([]);
+  const [examplesState, setExamplesState] = useState([]);
+
+  const [activeTab, setActiveTab] = useState(tabData[0].id);
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +43,12 @@ export const AceptionForm = ({ formData, setFormData }) => {
         subgroupwords.data,
         value
       );
-      setSubGroupWordsState(filteredSubGroups);
+      setClasificationState(subgroupwords, "clasificacion");
+      setMorphologyState(subgroupwords, "morfologia");
+      setSintaxisState(subgroupwords, "sintaxis");
+      setPragmaticaState(subgroupwords, "pragmatica");
+      setCulturaState(subgroupwords, "cultura");
+      setExamplesState(subgroupwords, "ejemplos");
     }
   };
 
@@ -52,7 +75,6 @@ export const AceptionForm = ({ formData, setFormData }) => {
         </label>
         <input type="file" id="file" name="file" />
       </div>
-
       <div>
         <label htmlFor="mcer" className="block">
           Nivel MCER
@@ -94,9 +116,38 @@ export const AceptionForm = ({ formData, setFormData }) => {
           ))}
         </select>
       </div>
-      {subGroupWordsState.length > 0 && (
+      <div className="w-full">
+        <div className="flex justify-center border-b border-gray-300">
+          {tabData.map((tab) => (
+            <button
+              key={tab.id}
+              className={`flex-1 text-center px-4 py-2 -mb-px text-sm font-medium text-gray-600 border-b-2 focus:outline-none ${
+                activeTab === tab.id
+                  ? "border-blue-500 text-blue-500"
+                  : "border-transparent hover:text-blue-500 hover:border-blue-500"
+              }`}
+              onClick={() => handleTabClick(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className="p-4">
+          {tabData.map(
+            (tab) =>
+              activeTab === tab.id && (
+                <div key={tab.id} className="tab-content">
+                  {tab.content}
+                </div>
+              )
+          )}
+        </div>
+      </div>
+      {/* clasificationState morphologyState sintaxisState pragmaticaState
+      culturaState examplesState */}
+      {/* {subGroupWordsState.length > 0 && (
         <DynamicForm data={subGroupWordsState} />
-      )}
+      )} */}
     </>
   );
 };
