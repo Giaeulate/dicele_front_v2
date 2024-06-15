@@ -23,6 +23,8 @@ export const AceptionForm = ({ formData, setFormData }) => {
   const [culturaState, setCulturaState] = useState([]);
   const [examplesState, setExamplesState] = useState([]);
 
+  const [selectedOptions, setSelectedOptions] = useState({});
+
   const tabData = [
     {
       id: "0",
@@ -30,7 +32,11 @@ export const AceptionForm = ({ formData, setFormData }) => {
       content: (
         <>
           {clasificationState.length > 0 && (
-            <DynamicForm data={clasificationState} />
+            <DynamicForm
+              data={clasificationState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
           )}
         </>
       ),
@@ -40,7 +46,13 @@ export const AceptionForm = ({ formData, setFormData }) => {
       label: "Morfología",
       content: (
         <>
-          {morphologyState.length > 0 && <DynamicForm data={morphologyState} />}
+          {morphologyState.length > 0 && (
+            <DynamicForm
+              data={morphologyState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
+          )}
         </>
       ),
     },
@@ -48,7 +60,15 @@ export const AceptionForm = ({ formData, setFormData }) => {
       id: "2",
       label: "Sintaxis",
       content: (
-        <>{sintaxisState.length > 0 && <DynamicForm data={sintaxisState} />}</>
+        <>
+          {sintaxisState.length > 0 && (
+            <DynamicForm
+              data={sintaxisState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
+          )}
+        </>
       ),
     },
     {
@@ -56,7 +76,13 @@ export const AceptionForm = ({ formData, setFormData }) => {
       label: "Pragmática",
       content: (
         <>
-          {pragmaticaState.length > 0 && <DynamicForm data={pragmaticaState} />}
+          {pragmaticaState.length > 0 && (
+            <DynamicForm
+              data={pragmaticaState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
+          )}
         </>
       ),
     },
@@ -64,14 +90,30 @@ export const AceptionForm = ({ formData, setFormData }) => {
       id: "4",
       label: "Cultura",
       content: (
-        <>{culturaState.length > 0 && <DynamicForm data={culturaState} />}</>
+        <>
+          {culturaState.length > 0 && (
+            <DynamicForm
+              data={culturaState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
+          )}
+        </>
       ),
     },
     {
       id: "5",
       label: "Ejemplos",
       content: (
-        <>{examplesState.length > 0 && <DynamicForm data={examplesState} />}</>
+        <>
+          {examplesState.length > 0 && (
+            <DynamicForm
+              data={examplesState}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
+          )}
+        </>
       ),
     },
   ];
@@ -204,11 +246,6 @@ export const AceptionForm = ({ formData, setFormData }) => {
           </div>
         </div>
       )}
-      {/* clasificationState morphologyState sintaxisState pragmaticaState
-      culturaState examplesState */}
-      {/* {subGroupWordsState.length > 0 && (
-        <DynamicForm data={subGroupWordsState} />
-      )} */}
     </>
   );
 };

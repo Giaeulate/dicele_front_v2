@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const DynamicForm = ({ data }) => {
-  const [formData, setFormData] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState({});
-
-  useEffect(() => {
-    setFormData(data);
-  }, [data]);
-
+const DynamicForm = ({ data, selectedOptions, setSelectedOptions }) => {
   const handleChange = (e, option) => {
     const { value, type, checked, files } = e.target;
     const inputValue =
@@ -146,7 +139,7 @@ const DynamicForm = ({ data }) => {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      {formData.map((option) => renderOptions(option))}
+      {data.map((option) => renderOptions(option))}
     </div>
   );
 };
