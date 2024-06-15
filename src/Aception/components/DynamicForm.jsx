@@ -6,7 +6,6 @@ const DynamicForm = ({ data }) => {
 
   useEffect(() => {
     setFormData(data);
-    console.log(data);
   }, [data]);
 
   const handleChange = (e, option) => {
@@ -29,10 +28,13 @@ const DynamicForm = ({ data }) => {
     switch (option.type) {
       case "text":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
             <input
               type="text"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             />
@@ -40,28 +42,40 @@ const DynamicForm = ({ data }) => {
         );
       case "checkbox":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4 flex items-center">
             <input
               type="checkbox"
+              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
               checked={!!selectedValue}
               onChange={(e) => handleChange(e, { id: key })}
             />
+            <label className="ml-2 block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
           </div>
         );
       case "file":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
-            <input type="file" onChange={(e) => handleChange(e, { id: key })} />
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
+            <input
+              type="file"
+              className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+              onChange={(e) => handleChange(e, { id: key })}
+            />
           </div>
         );
       case "number":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
             <input
               type="number"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             />
@@ -69,9 +83,12 @@ const DynamicForm = ({ data }) => {
         );
       case "select":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
             <select
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             >
@@ -89,10 +106,13 @@ const DynamicForm = ({ data }) => {
         );
       case "date":
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
             <input
               type="date"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             />
@@ -100,9 +120,12 @@ const DynamicForm = ({ data }) => {
         );
       default:
         return (
-          <div key={key}>
-            <label>{option.name}</label>
+          <div key={key} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {option.name}
+            </label>
             <select
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={selectedValue || ""}
               onChange={(e) => handleChange(e, { id: key })}
             >
@@ -121,7 +144,11 @@ const DynamicForm = ({ data }) => {
     }
   };
 
-  return <div>{formData.map((option) => renderOptions(option))}</div>;
+  return (
+    <div className="max-w-2xl mx-auto p-4">
+      {formData.map((option) => renderOptions(option))}
+    </div>
+  );
 };
 
 export default DynamicForm;

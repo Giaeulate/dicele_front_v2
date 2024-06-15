@@ -12,12 +12,6 @@ const filterDataByWordSubGroupWord = (data, value) => {
 };
 
 export const AceptionForm = ({ formData, setFormData }) => {
-  const tabData = [
-    { id: "tab1", label: "Tab 1", content: <div>Content for Tab 1</div> },
-    { id: "tab2", label: "Tab 2", content: <div>Content for Tab 2</div> },
-    { id: "tab3", label: "Tab 3", content: <div>Content for Tab 3</div> },
-  ];
-
   const { data } = useSelector((state) => state.wordType);
   const subgroupwords = useSelector((state) => state.subGroupWord);
   const mcerData = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -28,6 +22,59 @@ export const AceptionForm = ({ formData, setFormData }) => {
   const [pragmaticaState, setPragmaticaState] = useState([]);
   const [culturaState, setCulturaState] = useState([]);
   const [examplesState, setExamplesState] = useState([]);
+
+  const tabData = [
+    {
+      id: "0",
+      label: "Clasificación",
+      content: (
+        <>
+          {clasificationState.length > 0 && (
+            <DynamicForm data={clasificationState} />
+          )}
+        </>
+      ),
+    },
+    {
+      id: "1",
+      label: "Morfología",
+      content: (
+        <>
+          {morphologyState.length > 0 && <DynamicForm data={morphologyState} />}
+        </>
+      ),
+    },
+    {
+      id: "2",
+      label: "Sintaxis",
+      content: (
+        <>{sintaxisState.length > 0 && <DynamicForm data={sintaxisState} />}</>
+      ),
+    },
+    {
+      id: "3",
+      label: "Pragmática",
+      content: (
+        <>
+          {pragmaticaState.length > 0 && <DynamicForm data={pragmaticaState} />}
+        </>
+      ),
+    },
+    {
+      id: "4",
+      label: "Cultura",
+      content: (
+        <>{culturaState.length > 0 && <DynamicForm data={culturaState} />}</>
+      ),
+    },
+    {
+      id: "5",
+      label: "Ejemplos",
+      content: (
+        <>{examplesState.length > 0 && <DynamicForm data={examplesState} />}</>
+      ),
+    },
+  ];
 
   const [activeTab, setActiveTab] = useState(tabData[0].id);
 
@@ -43,12 +90,24 @@ export const AceptionForm = ({ formData, setFormData }) => {
         subgroupwords.data,
         value
       );
-      setClasificationState(subgroupwords, "clasificacion");
-      setMorphologyState(subgroupwords, "morfologia");
-      setSintaxisState(subgroupwords, "sintaxis");
-      setPragmaticaState(subgroupwords, "pragmatica");
-      setCulturaState(subgroupwords, "cultura");
-      setExamplesState(subgroupwords, "ejemplos");
+      setClasificationState(
+        filteredSubGroups.filter((e) => e.category === "clasificacion")
+      );
+      setMorphologyState(
+        filteredSubGroups.filter((e) => e.category === "morfologia")
+      );
+      setSintaxisState(
+        filteredSubGroups.filter((e) => e.category === "sintaxis")
+      );
+      setPragmaticaState(
+        filteredSubGroups.filter((e) => e.category === "pragmatica")
+      );
+      setCulturaState(
+        filteredSubGroups.filter((e) => e.category === "cultura")
+      );
+      setExamplesState(
+        filteredSubGroups.filter((e) => e.category === "ejemplos")
+      );
     }
   };
 
@@ -116,33 +175,35 @@ export const AceptionForm = ({ formData, setFormData }) => {
           ))}
         </select>
       </div>
-      <div className="w-full">
-        <div className="flex justify-center border-b border-gray-300">
-          {tabData.map((tab) => (
-            <button
-              key={tab.id}
-              className={`flex-1 text-center px-4 py-2 -mb-px text-sm font-medium text-gray-600 border-b-2 focus:outline-none ${
-                activeTab === tab.id
-                  ? "border-blue-500 text-blue-500"
-                  : "border-transparent hover:text-blue-500 hover:border-blue-500"
-              }`}
-              onClick={() => handleTabClick(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
+      {formData.word_type !== null && formData.word_type.length > 0 && (
+        <div className="w-full">
+          <div className="flex justify-center border-b border-gray-300">
+            {tabData.map((tab) => (
+              <button
+                key={tab.id}
+                className={`flex-1 text-center px-4 py-2 -mb-px text-sm font-medium text-gray-600 border-b-2 focus:outline-none ${
+                  activeTab === tab.id
+                    ? "border-blue-500 text-blue-500"
+                    : "border-transparent hover:text-blue-500 hover:border-blue-500"
+                }`}
+                onClick={() => handleTabClick(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <div className="p-4">
+            {tabData.map(
+              (tab) =>
+                activeTab === tab.id && (
+                  <div key={tab.id} className="tab-content">
+                    {tab.content}
+                  </div>
+                )
+            )}
+          </div>
         </div>
-        <div className="p-4">
-          {tabData.map(
-            (tab) =>
-              activeTab === tab.id && (
-                <div key={tab.id} className="tab-content">
-                  {tab.content}
-                </div>
-              )
-          )}
-        </div>
-      </div>
+      )}
       {/* clasificationState morphologyState sintaxisState pragmaticaState
       culturaState examplesState */}
       {/* {subGroupWordsState.length > 0 && (
